@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeZone - Customize Alerts</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="icon" type="image/png" href="../images/safezone icone.png">
+</head>
+<body class="alerts-page">
+    <header class="header">
+        <div class="header-left">
+            <button class="menu-btn" id="menuBtn">☰</button>
+            <img src="/images/safezone icone.png" alt="SafeZone Logo" class="header-logo white-fill">
+        </div>
+        
+        <div class="header-right">
+            <button class="header-btn" data-nav="notifications">
+                <span class="bell-icon">🔔</span>
+                <span class="notification-badge" id="notificationBadge">3</span>
+            </button>
+            <button class="header-btn" data-nav="profile">
+                <span class="user-icon">👤</span>
+            </button>
+        </div>
+        
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="/html/page2_dashboard.html">Dashboard</a>
+            <a href="/html/page13_farm-management.html">Farm Management</a>
+            <a href="/html/page8_farm-information.html">Farm Information</a>
+            <a href="/html/page14_farm-and-fence.html">Farm and Fence</a>
+            <a href="/html/page6_real-time-tracking.html">Real-time Tracking</a>
+            <a href="/html/page10_customize-alerts.html" class="active">Customize Alerts</a>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="alerts-container">
+            <h1>Customize Alerts</h1>
+            
+            <div class="connection-status" id="connectionStatus">
+                <div class="status-indicator">
+                    <span class="status-light" id="statusLight"></span>
+                    <span class="status-text" id="statusText">Checking connection...</span>
+                </div>
+            </div>
+            
+            <div class="alert-sections">
+                <div class="alert-section">
+                    <h3>Boundary Distance Alert</h3>
+                    <p class="section-description">Set the distance trigger for boundary breach alerts</p>
+                    
+                    <div class="setting-group">
+                        <label for="boundaryDistance">Trigger Distance (meters):</label>
+                        <div class="input-with-status">
+                            <input type="number" id="boundaryDistance" name="boundaryDistance" 
+                                   value="1.0" min="0.1" max="10.0" step="0.1" 
+                                   disabled>
+                            <span class="input-status" id="boundaryStatus">ESP32 offline - using default</span>
+                        </div>
+                        <small>Distance from fence boundary that triggers an alert (0.1 - 10.0 meters)</small>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="saveBoundaryBtn" onclick="saveBoundarySetting()" disabled>
+                        Save Boundary Setting
+                    </button>
+                </div>
+                
+                <div class="alert-section">
+                    <h3>Deterrent Time Constraint</h3>
+                    <p class="section-description">Configure deterrent activation timings</p>
+                    
+                    <div class="setting-group">
+                        <label for="deterrentTime1">First Alert Time (seconds):</label>
+                        <div class="input-with-status">
+                            <input type="number" id="deterrentTime1" name="deterrentTime1" 
+                                   value="5" min="1" max="60" 
+                                   disabled>
+                            <span class="input-status" id="deterrent1Status">ESP32 offline - using default</span>
+                        </div>
+                        <small>Time before first deterrent activates (1-60 seconds)</small>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label for="deterrentTime2">Second Alert Time (seconds):</label>
+                        <div class="input-with-status">
+                            <input type="number" id="deterrentTime2" name="deterrentTime2" 
+                                   value="15" min="5" max="120" 
+                                   disabled>
+                            <span class="input-status" id="deterrent2Status">ESP32 offline - using default</span>
+                        </div>
+                        <small>Time before LED blinking starts (5-120 seconds)</small>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label for="deterrentTime3">Third Alert Time (seconds):</label>
+                        <div class="input-with-status">
+                            <input type="number" id="deterrentTime3" name="deterrentTime3" 
+                                   value="50" min="15" max="300" 
+                                   disabled>
+                            <span class="input-status" id="deterrent3Status">ESP32 offline - using default</span>
+                        </div>
+                        <small>Time before buzzer activation (15-300 seconds)</small>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label for="buzzerDuration">Buzzer Duration (seconds):</label>
+                        <div class="input-with-status">
+                            <input type="number" id="buzzerDuration" name="buzzerDuration" 
+                                   value="20" min="5" max="60" 
+                                   disabled>
+                            <span class="input-status" id="buzzerStatus">ESP32 offline - using default</span>
+                        </div>
+                        <small>How long buzzer stays on (5-60 seconds)</small>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="saveDeterrentBtn" onclick="saveDeterrentSettings()" disabled>
+                        Save Deterrent Settings
+                    </button>
+                </div>
+                
+                <div class="alert-section">
+                    <h3>Gmail Alert Settings</h3>
+                    <p class="section-description">Configure email notification settings</p>
+                    
+                    <div class="setting-group">
+                        <label for="gmailReceiver">Alert Receiver Email:</label>
+                        <input type="email" id="gmailReceiver" name="gmailReceiver" 
+                               value="jeanclaudemng@gmail.com" required>
+                        <small>Email address to receive alert notifications</small>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="enableGmailAlerts" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Enable Gmail Alerts</span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="dailyReports" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Send Daily Reports (24MPF)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label for="alertFrequency">Alert Frequency:</label>
+                        <select id="alertFrequency" name="alertFrequency">
+                            <option value="immediate">Immediate</option>
+                            <option value="5min">Every 5 minutes</option>
+                            <option value="15min">Every 15 minutes</option>
+                            <option value="30min">Every 30 minutes</option>
+                            <option value="1hour">Every hour</option>
+                        </select>
+                        <small>How often to send email alerts for the same cow</small>
+                    </div>
+                    
+                    <button class="btn btn-success" id="saveGmailBtn" onclick="saveGmailSettings()">
+                        Save Gmail Settings
+                    </button>
+                </div>
+                
+                <div class="alert-section">
+                    <h3>Test Alerts</h3>
+                    <p class="section-description">Test your alert configurations</p>
+                    
+                    <div class="test-buttons">
+                        <button class="btn btn-warning" id="testBoundaryBtn">
+                            Test Boundary Alert
+                        </button>
+                        <button class="btn btn-warning" id="testDeterrentBtn">
+                            Test Deterrent System
+                        </button>
+                        <button class="btn btn-info" id="testGmailBtn">
+                            Test Gmail Alert
+                        </button>
+                        <button class="btn btn-success" id="testDatabaseBtn">
+                            Test Database Connection
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="default-settings-info">
+                <h3>Default Settings Information</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Boundary Distance:</strong> 1.0 meters
+                    </div>
+                    <div class="info-item">
+                        <strong>First Alert:</strong> 5 seconds
+                    </div>
+                    <div class="info-item">
+                        <strong>LED Blinking:</strong> 15 seconds
+                    </div>
+                    <div class="info-item">
+                        <strong>Buzzer Activation:</strong> 50 seconds
+                    </div>
+                    <div class="info-item">
+                        <strong>Buzzer Duration:</strong> 20 seconds ON, 5 seconds OFF (3x)
+                    </div>
+                    <div class="info-item">
+                        <strong>Final LED:</strong> 30 seconds ON
+                    </div>
+                </div>
+                <p><em>These settings are used when ESP32 devices are offline or not connected to the server.</em></p>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <p><strong>SafeZone</strong> - Developed by Jean Claude & Samuel</p>
+            <p>Near East University - 2025-2026 - v1.0.0</p>
+        </div>
+    </footer>
+    
+    <script src="../js/app.js"></script>
+</body>
+</html>
